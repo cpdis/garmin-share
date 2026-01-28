@@ -1,0 +1,91 @@
+/* ShareMyRun Extension Styles */
+
+.smr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  background: #f0f0f0;
+  color: #333;
+  min-height: 36px;
+}
+
+.smr-btn:hover {
+  background: #e0e0e0;
+}
+
+.smr-btn:active {
+  transform: scale(0.98);
+}
+
+.smr-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.smr-btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.smr-btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.smr-btn-success {
+  background: #16a34a !important;
+  color: white !important;
+}
+
+.smr-btn-error {
+  background: #dc2626 !important;
+  color: white !important;
+}
+
+/* Loading spinner */
+.smr-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: smr-spin 0.75s linear infinite;
+}
+
+@keyframes smr-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Garmin Connect specific positioning */
+.page-header-actions .smr-btn,
+.action-bar .smr-btn,
+[class*="ActionBar"] .smr-btn {
+  margin-left: 8px;
+}
+
+/* Match Garmin's button style more closely when on their site */
+.page-header-actions .smr-btn,
+.action-bar .smr-btn {
+  background: #007bff;
+  color: white;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.page-header-actions .smr-btn:hover,
+.action-bar .smr-btn:hover {
+  background: #0056b3;
+}

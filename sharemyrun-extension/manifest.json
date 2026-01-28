@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "ShareMyRun",
+  "version": "1.0.0",
+  "description": "Share Garmin workouts with a single click",
+  "permissions": [],
+  "host_permissions": [
+    "https://connect.garmin.com/*",
+    "https://garmin-import.vercel.app/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://connect.garmin.com/modern/workout/*"],
+      "js": ["content/garmin.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://garmin-import.vercel.app/w/*"],
+      "js": ["content/sharemyrun.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

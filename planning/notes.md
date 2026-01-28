@@ -60,3 +60,52 @@ app/
 - No link expiration
 - No rate limiting (relies on Vercel defaults)
 - FIT file parsing less tested than JSON
+
+---
+
+## 2025-01-28 (continued)
+
+### ShareMyRun Chrome Extension
+
+**Goal:** One-click workout sharing from Garmin Connect + one-click import on share pages
+
+**Architecture:**
+```
+sharemyrun-extension/
+├── manifest.json       # MV3, permissions for garmin + our domain
+├── background.js       # Service worker: upload/import handlers
+├── content/
+│   ├── garmin.js      # Share button on connect.garmin.com/modern/workout/*
+│   └── sharemyrun.js  # Import button on garmin-import.vercel.app/w/*
+├── styles.css          # Button styles
+└── icons/              # 16/48/128 placeholders
+```
+
+### Implementation
+
+**Files created:**
+- `sharemyrun-extension/manifest.json` - MV3 manifest with host permissions
+- `sharemyrun-extension/content/garmin.js` - Extracts workout via Garmin API, sends to background
+- `sharemyrun-extension/content/sharemyrun.js` - Injects import button, triggers Garmin import
+- `sharemyrun-extension/background.js` - Handles uploadWorkout/importWorkout, CSRF extraction
+- `sharemyrun-extension/styles.css` - Button styling matching Garmin/our site
+- `app/api/upload/route.ts` - POST endpoint for JSON workout upload (CORS enabled)
+
+**Key technical details:**
+- Garmin workout API: `GET /gc-api/workout-service/workout/{id}` (extract)
+- Garmin import API: `POST /gc-api/workout-service/workout` (create)
+- CSRF token extracted from Garmin Connect page meta tag
+- Workout prep for import: remove IDs, add " - shared" suffix, clear stepIds
+- MutationObserver for SPA navigation detection
+
+### Status
+- [x] Create extension folder structure
+- [x] Write manifest.json
+- [x] Write garmin.js content script (share button)
+- [x] Write sharemyrun.js content script (import button)
+- [x] Write background.js service worker
+- [x] Write styles.css
+- [x] Add /api/upload route to Next.js
+- [x] Create placeholder icons
+- [ ] Local testing
+- [ ] Deploy API route to Vercel
