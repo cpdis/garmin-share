@@ -1,0 +1,41 @@
+{
+  "workoutId": 999999999,
+  "ownerId": 12345678,
+  "workoutName": "5K Tempo Run",
+  "description": "Easy warmup, sustained tempo effort, cooldown jog",
+  "sportType": {
+    "sportTypeId": 1,
+    "sportTypeKey": "running"
+  },
+  "workoutSegments": [
+    {
+      "segmentOrder": 1,
+      "sportType": { "sportTypeKey": "running" },
+      "workoutSteps": [
+        {
+          "stepOrder": 1,
+          "stepType": { "stepTypeKey": "warmup" },
+          "endCondition": { "conditionTypeKey": "time" },
+          "endConditionValue": 600,
+          "targetType": { "workoutTargetTypeKey": "no.target" }
+        },
+        {
+          "stepOrder": 2,
+          "stepType": { "stepTypeKey": "interval" },
+          "endCondition": { "conditionTypeKey": "distance" },
+          "endConditionValue": 5000,
+          "targetType": { "workoutTargetTypeKey": "pace.zone" },
+          "targetValueOne": 240,
+          "targetValueTwo": 270
+        },
+        {
+          "stepOrder": 3,
+          "stepType": { "stepTypeKey": "cooldown" },
+          "endCondition": { "conditionTypeKey": "time" },
+          "endConditionValue": 300,
+          "targetType": { "workoutTargetTypeKey": "no.target" }
+        }
+      ]
+    }
+  ]
+}

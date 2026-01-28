@@ -38,10 +38,25 @@ app/
 - Garmin workout JSON has `workoutSegments[].workoutSteps[]` structure
 - Pace targets in JSON are seconds/km (e.g., 240 = 4:00/km)
 
-### Next Steps
+### Implementation Complete
 
-- [ ] Initialize Next.js project
-- [ ] Implement upload action
-- [ ] Implement share page with dual parsing
-- [ ] Deploy to Vercel
-- [ ] Test with real workout files
+- [x] Initialize Next.js project
+- [x] Implement upload action
+- [x] Implement share page with dual parsing
+- [x] Deploy to Vercel
+- [x] Test with real workout files
+
+**Live URL:** https://garmin-import.vercel.app
+
+**Test Share Link:** https://garmin-import.vercel.app/w/ebed22a7
+
+### Files Created
+- `app/page.tsx` - Upload page with file picker
+- `app/actions.ts` - Server action for upload to Vercel Blob
+- `app/w/[id]/page.tsx` - Share page with dual JSON/FIT parsing
+- `garmin-fitsdk.d.ts` - Type declarations for Garmin FIT SDK
+
+### Known Limitations (MVP)
+- No link expiration
+- No rate limiting (relies on Vercel defaults)
+- FIT file parsing less tested than JSON
