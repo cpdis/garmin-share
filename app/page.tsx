@@ -10,6 +10,7 @@ export default function HomePage() {
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [fileName, setFileName] = useState<string | null>(null);
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
@@ -65,6 +66,7 @@ export default function HomePage() {
               setStatus("idle");
               setShareUrl(null);
               setCopied(false);
+              setFileName(null);
             }}
             className="text-blue-600 text-sm hover:underline"
           >
@@ -74,24 +76,32 @@ export default function HomePage() {
       ) : (
         <>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition-colors">
+            <label className="block border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors cursor-pointer">
               <input
                 type="file"
                 name="file"
                 accept=".fit,.json"
                 required
-                className="block w-full text-sm text-gray-500
-                  file:mr-4 file:py-2 file:px-4
-                  file:rounded file:border-0
-                  file:text-sm file:font-semibold
-                  file:bg-blue-50 file:text-blue-700
-                  hover:file:bg-blue-100
-                  file:cursor-pointer cursor-pointer"
+                className="sr-only"
+                id="file-upload"
+                onChange={(e) => setFileName(e.target.files?.[0]?.name || null)}
               />
-              <p className="text-xs text-gray-400 mt-2">
-                .FIT (from watch) or .JSON (from Chrome extension)
-              </p>
-            </div>
+              {fileName ? (
+                <>
+                  <div className="text-gray-800 font-medium mb-1">{fileName}</div>
+                  <p className="text-xs text-blue-600">Click to change file</p>
+                </>
+              ) : (
+                <>
+                  <div className="text-blue-600 font-semibold mb-2">
+                    Click to choose file
+                  </div>
+                  <p className="text-xs text-gray-400">
+                    .FIT (from watch) or .JSON (from Chrome extension)
+                  </p>
+                </>
+              )}
+            </label>
 
             {error && <p className="text-red-600 text-sm">{error}</p>}
 
