@@ -107,5 +107,30 @@ sharemyrun-extension/
 - [x] Write styles.css
 - [x] Add /api/upload route to Next.js
 - [x] Create placeholder icons
-- [ ] Local testing
-- [ ] Deploy API route to Vercel
+- [x] Deploy API route to Vercel
+- [ ] Local testing - IN PROGRESS
+
+### Debugging Progress (2026-02-06)
+
+**Issues fixed:**
+1. URL pattern: Changed from `/modern/workout/*` to include `/app/workout/*`
+2. Selectors: Updated to `[class*="WorkoutPageHeader_headerRightWrapper"]` (Garmin uses CSS modules)
+3. API path: Found working path is `/proxy/workout-service/workout/{id}`
+
+**Current blocker:**
+- Workout extraction works (returns large object)
+- Upload fails: `400 - Invalid workout data - missing workoutName or workoutSegments`
+- Need to check actual keys in Garmin's response to fix API validation
+
+**Next step:**
+Run in Console on Garmin workout page:
+```javascript
+fetch('/proxy/workout-service/workout/1455655495', {credentials:'include'})
+  .then(r => r.json())
+  .then(d => {
+    const keys = Object.keys(d).join(', ');
+    navigator.clipboard.writeText(keys);
+    console.log('Copied:', keys);
+  });
+```
+Then update `/app/api/upload/route.ts` validation to match actual response structure.

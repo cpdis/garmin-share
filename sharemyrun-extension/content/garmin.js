@@ -10,24 +10,58 @@
 
   const BUTTON_ID = "smr-share-btn";
 
-  // Extract workout ID from URL
+  // Extract workout ID from URL (handles /modern/workout/ID and /app/workout/ID)
   function getWorkoutId() {
-    const match = window.location.pathname.match(/\/workout\/(\d+)/);
+    const match = window.location.pathname.match(/\/(?:modern|app)\/workout\/(\d+)/);
     return match ? match[1] : null;
   }
 
-  // Fetch workout data from Garmin's internal API
+  // Fetch workout data - try page state first, then API
   async function extractWorkout(workoutId) {
-    const response = await fetch(
-      `https://connect.garmin.com/gc-api/workout-service/workout/${workoutId}?includeAudioNotes=true`,
-      { credentials: "include" }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch workout: ${response.status}`);
+    // Method 1: Try to get from page's preloaded state (fastest)
+    const stateScript = document.querySelector('script[type="application/json"][data-id="state"]');
+    if (stateScript) {
+      try {
+        const state = JSON.parse(stateScript.textContent);
+        if (state?.workout) return state.workout;
+      } catch (e) {}
     }
 
-    return response.json();
+    // Method 2: Try __NEXT_DATA__ or similar
+    const nextData = document.getElementById('__NEXT_DATA__');
+    if (nextData) {
+      try {
+        const data = JSON.parse(nextData.textContent);
+        if (data?.props?.pageProps?.workout) return data.props.pageProps.workout;
+      } catch (e) {}
+    }
+
+    // Method 3: Try API paths
+    const paths = [
+      `/proxy/workout-service/workout/${workoutId}`,
+      `/modern/proxy/workout-service/workout/${workoutId}`,
+      `/workout-service/workout/${workoutId}`,
+    ];
+
+    for (const path of paths) {
+      try {
+        const response = await fetch(`https://connect.garmin.com${path}`, {
+          credentials: "include",
+          headers: {
+            "Accept": "application/json",
+            "NK": "NT",
+          },
+        });
+
+        if (response.ok) {
+          return response.json();
+        }
+      } catch (e) {
+        // Try next path
+      }
+    }
+
+    throw new Error("Could not extract workout data");
   }
 
   // Handle share button click
@@ -88,11 +122,11 @@
 
     // Try multiple selectors for Garmin's UI (they change occasionally)
     const selectors = [
+      '[class*="WorkoutPageHeader_headerRightWrapper"]',
+      '[class*="WorkoutPageRightNav_rightNavLinkWrapper"]',
       ".page-header-actions",
       ".action-bar",
       '[class*="ActionBar"]',
-      '[class*="page-actions"]',
-      ".workout-detail-header .btn-group",
     ];
 
     let actionBar = null;

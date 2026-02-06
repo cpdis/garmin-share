@@ -68,24 +68,22 @@
 }
 
 /* Garmin Connect specific positioning */
-.page-header-actions .smr-btn,
-.action-bar .smr-btn,
-[class*="ActionBar"] .smr-btn {
-  margin-left: 8px;
+[class*="WorkoutPageHeader_headerRightWrapper"] .smr-btn {
+  margin-left: 12px;
 }
 
-/* Match Garmin's button style more closely when on their site */
-.page-header-actions .smr-btn,
-.action-bar .smr-btn {
-  background: #007bff;
+/* Match Garmin's button style on their site */
+[class*="WorkoutPageHeader_headerRightWrapper"] .smr-btn,
+[class*="WorkoutPageRightNav"] .smr-btn {
+  background: #11a9ed;
   color: white;
   border-radius: 4px;
-  text-transform: uppercase;
-  font-size: 12px;
-  letter-spacing: 0.5px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 16px;
 }
 
-.page-header-actions .smr-btn:hover,
-.action-bar .smr-btn:hover {
-  background: #0056b3;
+[class*="WorkoutPageHeader_headerRightWrapper"] .smr-btn:hover,
+[class*="WorkoutPageRightNav"] .smr-btn:hover {
+  background: #0d8ac7;
 }

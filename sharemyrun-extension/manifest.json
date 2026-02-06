@@ -10,7 +10,7 @@
   ],
   "content_scripts": [
     {
-      "matches": ["https://connect.garmin.com/modern/workout/*"],
+      "matches": ["https://connect.garmin.com/modern/workout/*", "https://connect.garmin.com/app/workout/*"],
       "js": ["content/garmin.js"],
       "css": ["styles.css"],
       "run_at": "document_idle"
